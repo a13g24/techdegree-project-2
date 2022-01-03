@@ -27,8 +27,8 @@ function showPage(list, page) {
    
    ul.innerHTML = '';
 
+   // create student cards 
    for (let i = 0; i < list.length; i++) {
-      // create student cards 
       if (i >= startDex && i < endDex) {
          // current student
          let datum = list[i];
@@ -77,18 +77,59 @@ function addPagination(list) {
    }
 
    // make first page button active
-   ul.firstElementChild.className = 'active';
+   ul.firstElementChild.firstElementChild.className = 'active';
 
    // listen for clicks on parent of links
    ul.addEventListener('click', (e) => {
       if (e.target.tagName === 'BUTTON') {
-         console.log('a button was clicked');
+         // select all active class buttons
+         let actives = document.getElementsByClassName('active');
+
+         // remove class active from them
+         for (const btn of actives) {
+            btn.className = '';
+         }
+
+         // add active class to target button
+         e.target.className = 'active';
+
+         // call showPage with data and target page number
+         showPage(list, e.target.textContent);
       }
    });
 }
 
+function createSearchBar() {
+   let searchBar = 
+   `<label for="search" class="student-search">
+      <span>Search by name</span>
+      <input id="search" placeholder="Search by name...">
+      <button type="button"><img src="img/icn-search.svg" alt="Search icon"></button>
+   </label>`;
 
+   // place the search bar in the DOM
+   document.querySelector('.header').insertAdjacentHTML('beforeend', searchBar);
+
+   // select the search bar
+   let search = document.querySelector('#search');
+
+   let strSoFar = '';
+   // listen for keyups
+   search.addEventListener('keyup', (e) => {
+      // only log alphanumeric keys
+      if (e.key.length === 1) {
+         // TODO - perform dynamic partial search on all items in data (ignoring case)
+         console.log('you pressed key ' + e.key);
+         strSoFar += e.key;
+         console.log('strSoFar = ' + strSoFar);
+      }
+
+      // TODO - if delete is pushed, then remove last char from strSoFar
+      // TODO - can i just get the value inside the form entry rather than dynamically update it?
+   });
+}
 
 // Call functions
 showPage(data, 1);
+createSearchBar();  // consider renaming or moving
 addPagination(data);
