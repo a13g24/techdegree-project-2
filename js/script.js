@@ -24,7 +24,35 @@ function showPage(list, page) {
    let startDex = (page * ITEMS_PER_PAGE) - ITEMS_PER_PAGE;
    let endDex = page * ITEMS_PER_PAGE;
    let ul = document.querySelector('.student-list');
+   
+   ul.innerHTML = '';
 
+   for (let i = 0; i < list.length; i++) {
+      // create student cards 
+      if (i >= startDex && i < endDex) {
+         // current student
+         let datum = list[i];
+
+         // student card
+         let card = 
+         `<li class="student-item cf">
+            <div class="student-details">
+               <img class="avatar" src="${datum.picture.large}" alt="Profile Picture">
+               <h3>${datum.name.first} ${datum.name.last}</h3>
+               <span class="email">${datum.email}</span>
+            </div>
+            <div class="joined-details">
+               <span class="date">Joined ${datum.registered.date}</span>
+            </div>
+         </li>`;
+
+         // convert template literal to DOM fragment
+         let fragment = document.createRange().createContextualFragment(card);
+
+         // insert card into DOM
+         ul.appendChild(fragment);
+      }
+   }
 }
 
 
@@ -36,3 +64,4 @@ This function will create and insert/append the elements needed for the paginati
 
 
 // Call functions
+showPage(data, 1);
