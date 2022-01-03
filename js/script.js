@@ -13,11 +13,19 @@ For assistance:
 
 
 
-/*
-Create the `showPage` function
-This function will create and insert/append the elements needed to display a "page" of nine students
-*/
+/** 
+ * Create the `showPage` function
+ * This function will create and insert/append the elements needed to display a "page" of nine students
+ * @param {Object[]} list - The student data 
+ * @param {Number} page - The desired page number 
+ */
+function showPage(list, page) {
+   const ITEMS_PER_PAGE = 9;
+   let startDex = (page * ITEMS_PER_PAGE) - ITEMS_PER_PAGE;
+   let endDex = page * ITEMS_PER_PAGE;
+   let ul = document.querySelector('.student-list');
 
+}
 
 
 /*
