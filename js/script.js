@@ -11,7 +11,8 @@ For assistance:
    Reach out in your Slack community: https://treehouse-fsjs-102.slack.com/app_redirect?channel=unit-2
 */
 
-
+// Global variables
+const ITEMS_PER_PAGE = 9;  // num students per page
 
 /** 
  * Create the `showPage` function
@@ -20,7 +21,6 @@ For assistance:
  * @param {Number} page - The desired page number 
  */
 function showPage(list, page) {
-   const ITEMS_PER_PAGE = 9;
    let startDex = (page * ITEMS_PER_PAGE) - ITEMS_PER_PAGE;
    let endDex = page * ITEMS_PER_PAGE;
    let ul = document.querySelector('.student-list');
@@ -46,22 +46,49 @@ function showPage(list, page) {
             </div>
          </li>`;
 
-         // convert template literal to DOM fragment
-         let fragment = document.createRange().createContextualFragment(card);
-
          // insert card into DOM
-         ul.appendChild(fragment);
+         ul.insertAdjacentHTML('beforeend', card);
       }
    }
 }
 
 
-/*
-Create the `addPagination` function
-This function will create and insert/append the elements needed for the pagination buttons
-*/
+/**
+ * Create the `addPagination` function
+ * This function will create and insert/append the elements needed for the pagination buttons
+ * @param {Object[]} list - The student data
+ */
+function addPagination(list) {
+   let numPages = Math.ceil(list.length / ITEMS_PER_PAGE);
+   let ul = document.querySelector('.link-list');
+
+   // remove existing pagination buttons
+   ul.innerHTML = '';
+
+   // create pagination buttons
+   for (let page = 0; page < numPages; page++) {
+      // new button
+      let pageBtn = 
+      `<li>
+         <button type="button">${page + 1}</button>
+      </li>`;
+
+      ul.insertAdjacentHTML('beforeend', pageBtn);
+   }
+
+   // make first page button active
+   ul.firstElementChild.className = 'active';
+
+   // listen for clicks on parent of links
+   ul.addEventListener('click', (e) => {
+      if (e.target.tagName === 'BUTTON') {
+         console.log('a button was clicked');
+      }
+   });
+}
 
 
 
 // Call functions
 showPage(data, 1);
+addPagination(data);
