@@ -99,7 +99,11 @@ function addPagination(list) {
    });
 }
 
+/**
+ * Creates a search bar and a dynamic search feature.
+ */
 function createSearchBar() {
+   // the search bar to insert
    let searchBar = 
    `<label for="search" class="student-search">
       <span>Search by name</span>
@@ -113,23 +117,37 @@ function createSearchBar() {
    // select the search bar
    let search = document.querySelector('#search');
 
-   let strSoFar = '';
    // listen for keyups
    search.addEventListener('keyup', (e) => {
-      // only log alphanumeric keys
-      if (e.key.length === 1) {
-         // TODO - perform dynamic partial search on all items in data (ignoring case)
-         console.log('you pressed key ' + e.key);
-         strSoFar += e.key;
-         console.log('strSoFar = ' + strSoFar);
-      }
+      // only log alphanumeric keys and backspace
+      if (e.key.length === 1 || e.key === 'Backspace') {
+         // get current value of text field
+         let value = search.value;
 
-      // TODO - if delete is pushed, then remove last char from strSoFar
-      // TODO - can i just get the value inside the form entry rather than dynamically update it?
+         // create regex based on value
+         let regex = new RegExp(value, 'gi');
+
+         // callback function to filter by full name
+         function filterByFullName(el) {
+            let firstName = el.name.first;
+            let lastName = el.name.last;
+            let fullName = firstName + ' ' + lastName;
+
+            return fullName.match(regex);
+         }
+
+         // filter data in array based on regex
+         let allMatches = data.filter(filterByFullName);
+
+         let active = document.getElementsByClassName('active')[0];
+
+         // change page to display only filtered names
+         showPage(allMatches, 1);
+      }
    });
 }
 
 // Call functions
 showPage(data, 1);
-createSearchBar();  // consider renaming or moving
+createSearchBar();  
 addPagination(data);
