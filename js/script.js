@@ -143,6 +143,7 @@ function createSearchBar() {
 
          // change page to display only filtered names
          showPage(allMatches, 1);
+         addPagination(allMatches);
       }
    });
 }
