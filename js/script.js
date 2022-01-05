@@ -27,6 +27,11 @@ function showPage(list, page) {
    
    ul.innerHTML = '';
 
+   // show no results if none found
+   if (!list.length) {
+      ul.insertAdjacentHTML('beforeend', '<p>No Results</p>');
+   }
+
    // create student cards 
    for (let i = 0; i < list.length; i++) {
       if (i >= startDex && i < endDex) {
@@ -75,6 +80,8 @@ function addPagination(list) {
 
       ul.insertAdjacentHTML('beforeend', pageBtn);
    }
+
+   if (!list.length) return;
 
    // make first page button active
    ul.firstElementChild.firstElementChild.className = 'active';
