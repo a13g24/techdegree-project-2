@@ -139,7 +139,7 @@ function createSearchBar() {
          // filter data in array based on regex
          let allMatches = data.filter(filterByFullName);
 
-         let active = document.getElementsByClassName('active')[0];
+         // let active = document.getElementsByClassName('active')[0];
 
          // change page to display only filtered names
          showPage(allMatches, 1);
